@@ -1,10 +1,12 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Dion
 {
     public class DionController : MonoBehaviour
     {
+        [Header("Movement")]
         [SerializeField] [Range(0, 1f)] private float fallAcceleration;
 
         [SerializeField] [Range(0, 1f)] private float baseMovementAcceleration;
@@ -16,18 +18,66 @@ namespace Dion
         [SerializeField]
         private float baseMovementSpeed;
         
+        [Header("Life")]
+        [SerializeField]
+        private float baseOxygenTime = 30f;
+
+        [SerializeField] [Range(1f, 5f)] private float gainBreathFactor;
+        
 
         private Vector3 _movement;
-        private float _gravity;
+        
+        public float oxygenLeft;
+        public bool isDead;
+
+        private bool _isUnderWater;
+        
+        public bool isUnderWater
+        {
+            get => _isUnderWater;
+            set
+            {
+                _isUnderWater = value;
+                if (!_isUnderWater) _movement.y = 0;
+            }
+        }
+
+        private void Start()
+        {
+            oxygenLeft = baseOxygenTime;
+        }
 
         private void Update()
         {
+            if (isDead) return;
+            
             Move();
+            Breathe();
+        }
+
+        private void Breathe()
+        {
+            if (_isUnderWater)
+            {
+                oxygenLeft -= Time.deltaTime;    
+            }
+            else if (oxygenLeft <= baseOxygenTime) // do not fill up the tanks, just player's "lungs"
+            {
+                oxygenLeft = Math.Min(baseOxygenTime, oxygenLeft + Time.deltaTime * gainBreathFactor);
+            }
+            
+            
+            if (oxygenLeft <= 0)
+            {
+                oxygenLeft = 0;
+                isDead = true;    
+            }
         }
 
         private void Move()
         {
             var input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            input.y = !_isUnderWater && input.y > 0 ? 0 : input.y;
             var accelerationModifiers = new Vector2(
                 Math.Abs(input.x) < 0.25 ? baseMovementDeceleration : baseMovementAcceleration,
                 Math.Abs(input.y) < 0.25 ? baseMovementDeceleration : baseMovementAcceleration
