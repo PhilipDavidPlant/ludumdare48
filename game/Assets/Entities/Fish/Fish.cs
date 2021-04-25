@@ -81,7 +81,8 @@ public class Fish : MonoBehaviour
                 
                 if (props != null)
                 {
-                    var furthestTarget = transform.position + (-transform.forward * _nextTargetArea);
+                    var directionToTarget = (_target - transform.position).normalized * -1;
+                    var furthestTarget = transform.position + (directionToTarget * _nextTargetArea);
                     do
                     {
                         _target = transform.position + new Vector3(Random.Range(furthestTarget.x - _nextTargetArea / 2, furthestTarget.x + _nextTargetArea / 2),
@@ -124,12 +125,10 @@ public class Fish : MonoBehaviour
         if (Vector3.Distance(transform.position, _target) < 2f)
         {
             ChangeState(State.Idling);
+        } else if (IsGoingToHitSomething())
+        {
+            ChangeState(State.LookingForTarget, new LookingForTargetChangeStateParameters{LookBehind = true});
         }
-
-        // } else if (IsGoingToHitSomething())
-        // {
-        //     ChangeState(State.LookingForTarget, new LookingForTargetChangeStateParameters{LookBehind = true});
-        // }
     }
 
     private void HandleRunningFromPlayer()
