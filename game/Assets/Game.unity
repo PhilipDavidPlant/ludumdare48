@@ -412,8 +412,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 11.61
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -437,7 +437,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 877895889}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -22.2}
+  m_LocalPosition: {x: 0, y: -9.37, z: -22.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -911,7 +911,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4078370569122282145, guid: 2d00deb959fe042838ec8586e57c9edf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.85
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: 4078370569122282145, guid: 2d00deb959fe042838ec8586e57c9edf, type: 3}
       propertyPath: m_LocalPosition.z
@@ -947,7 +947,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6040266810062005942, guid: 2d00deb959fe042838ec8586e57c9edf, type: 3}
       propertyPath: maxFallSpeed
-      value: 0.01
+      value: 0.001
       objectReference: {fileID: 0}
     - target: {fileID: 6040266810062005942, guid: 2d00deb959fe042838ec8586e57c9edf, type: 3}
       propertyPath: fallAcceleration
@@ -959,7 +959,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6040266810062005942, guid: 2d00deb959fe042838ec8586e57c9edf, type: 3}
       propertyPath: baseMovementSpeed
-      value: 0.3
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 6040266810062005942, guid: 2d00deb959fe042838ec8586e57c9edf, type: 3}
       propertyPath: baseMovementAcceleration
@@ -969,5 +969,11 @@ PrefabInstance:
       propertyPath: baseMovementDeceleration
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8867911422232593487, guid: 2d00deb959fe042838ec8586e57c9edf, type: 3}
+      propertyPath: _shootForce
+      value: 0.3
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6527141177740081112, guid: 2d00deb959fe042838ec8586e57c9edf, type: 3}
+    - {fileID: 1133357734004007255, guid: 2d00deb959fe042838ec8586e57c9edf, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2d00deb959fe042838ec8586e57c9edf, type: 3}

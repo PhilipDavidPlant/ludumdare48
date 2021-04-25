@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52127096bf82a4b52ab2ff9c4ac72522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dion: {fileID: 0}
 --- !u!135 &3174566088875053859
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -89,6 +90,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1308024177496401944}
+  - {fileID: 1809391535255790727}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -173,6 +175,52 @@ MonoBehaviour:
   maxFallSpeed: 5
   baseMovementSpeed: 0
   baseOxygenTime: 20
+  gainBreathFactor: 0
   oxygenLeft: 0
   isDead: 0
-  isUnderWater: 0
+--- !u!1 &8379261747475378966
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1809391535255790727}
+  - component: {fileID: 8867911422232593487}
+  m_Layer: 0
+  m_Name: SpearShooter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1809391535255790727
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8379261747475378966}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4078370569122282145}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8867911422232593487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8379261747475378966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aecd4c63f8a9004cb7a2e37bc3130b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shootForce: 0.2
+  _spearReturnSpeed: 0.1
+  _spear: {fileID: 2373395984764328980, guid: cb85b1980e2525442afe4c993b104f56, type: 3}
