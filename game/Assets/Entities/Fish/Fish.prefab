@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5354580178435540929}
   - component: {fileID: 8082921800646210799}
   - component: {fileID: 4821672779791680459}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TempHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 2205899725767390950}
   - component: {fileID: 6303697956282690132}
   - component: {fileID: 7882979118638808004}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,3 +205,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 0
+  _acceleration: 0
+  _deceleration: 0
+  _sightDistance: 0

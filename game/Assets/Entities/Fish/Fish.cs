@@ -52,9 +52,9 @@ public class Fish : MonoBehaviour
     private void OnDrawGizmos()
     {
         
-        Gizmos.DrawSphere(_target, 2f);
+        Gizmos.DrawSphere(_target, .5f);
         Gizmos.DrawSphere(transform.position + transform.forward * 2 , .5f);
-        
+        Gizmos.DrawRay(transform.position, _movingDirection * _sightDistance);
     }
 
     private void ChangeState(State newState, [CanBeNull] ChangeStateParameters parameters = null)
@@ -64,6 +64,9 @@ public class Fish : MonoBehaviour
         {
             case State.Idling:
                 _idlingTime = 0;
+                break;
+            case State.MovingToTarget:
+                _movement = new Vector3();
                 break;
         }
         
@@ -94,6 +97,7 @@ public class Fish : MonoBehaviour
                             Random.Range(-_nextTargetArea, _nextTargetArea), 0);
                     } while (_target.y >= _waterHeight - 5);    
                 }
+                
                 break;
         }
 
@@ -103,7 +107,6 @@ public class Fish : MonoBehaviour
     private void HandleIdling()
     {
         _idlingTime = Math.Max(_idlingTime - Time.deltaTime, 0);
-
         if (_idlingTime == 0)
         {
             ChangeState(State.LookingForTarget);
@@ -114,18 +117,19 @@ public class Fish : MonoBehaviour
     {
         _movingDirection = (_target - transform.position).normalized;
         _movingDirection.z = 0;
-        Debug.Log(_movingDirection);
-        _movement = Vector3.Lerp(_movement, _movingDirection * _speed, _acceleration * Time.deltaTime);
+        _movement = Vector3.Lerp(_movement, _movingDirection * _speed, _acceleration * Time.deltaTime) * GetSpeedModifier(transform.position);
         
         transform.Translate(_movement);
         
         if (Vector3.Distance(transform.position, _target) < 2f)
         {
             ChangeState(State.Idling);
-        } else if (IsGoingToHitSomething())
-        {
-            ChangeState(State.LookingForTarget, new LookingForTargetChangeStateParameters{LookBehind = true});
         }
+
+        // } else if (IsGoingToHitSomething())
+        // {
+        //     ChangeState(State.LookingForTarget, new LookingForTargetChangeStateParameters{LookBehind = true});
+        // }
     }
 
     private void HandleRunningFromPlayer()
@@ -140,7 +144,13 @@ public class Fish : MonoBehaviour
 
     private bool IsGoingToHitSomething()
     {
-        return Physics.Raycast(transform.position, _movingDirection * _sightDistance); 
+        int layerMask = 1 << 6;
+        layerMask = ~layerMask;
+        return Physics.Raycast(transform.position, _movingDirection * _sightDistance, _sightDistance, layerMask); 
+    }
+
+    private float GetSpeedModifier(Vector2 position) {
+        return  Mathf.PerlinNoise(position.x / 10, position.y / 10);
     }
     
     class ChangeStateParameters {}
