@@ -10,6 +10,8 @@ public class Fish : MonoBehaviour
     [SerializeField] private float _acceleration;
     [SerializeField] private float _deceleration;
     [SerializeField] private float _sightDistance;
+    [SerializeField] public float minDepth;
+    [SerializeField] public float maxDepth;
     [SerializeField] public int value;
     [SerializeField] private GameObject _mesh;
 
@@ -28,8 +30,8 @@ public class Fish : MonoBehaviour
     
     private void Start()
     {
-        _player = FindObjectOfType<DionController>().gameObject.transform;
-        _waterHeight = FindObjectOfType<WaterLevel>().gameObject.transform.position.y;
+        // _player = FindObjectOfType<DionController>().gameObject.transform;
+        _waterHeight = 0;
     }
 
     private void Update()
@@ -91,26 +93,35 @@ public class Fish : MonoBehaviour
                 break;
             case State.LookingForTarget:
                 var props = (LookingForTargetChangeStateParameters) parameters;
-                
-                if (props != null)
-                {
-                    var directionToTarget = (_target - transform.position).normalized * -1;
-                    var furthestTarget = transform.position + (directionToTarget * _nextTargetArea);
-                    do
-                    {
-                        _target = transform.position + new Vector3(Random.Range(furthestTarget.x - _nextTargetArea / 2, furthestTarget.x + _nextTargetArea / 2),
-                            Random.Range(furthestTarget.y - _nextTargetArea / 2, furthestTarget.y + _nextTargetArea / 2), 0);    
-                    } while (_target.y >= _waterHeight - 5);
+                var calls = 0;
+                // if (props != null)
+                // {
+                //     var directionToTarget = (_target - transform.position).normalized * -1;
+                //     var furthestTarget = transform.position + (directionToTarget * _nextTargetArea);
+                //     do
+                //     {
+                //         _target = transform.position + new Vector3(Random.Range(furthestTarget.x - _nextTargetArea / 2, furthestTarget.x + _nextTargetArea / 2),
+                //             Random.Range(furthestTarget.y - _nextTargetArea / 2, furthestTarget.y + _nextTargetArea / 2), 0);    
+                //             Debug.Log("yes");
+                //             calls++;
+                //             if (calls > 10) Destroy(gameObject);
+                //     } while (_target.y >= _waterHeight - 5);
                     
-                }
-                else
+                // }
+                // else
+                // {
+                do
                 {
-                    do
-                    {
-                        _target = transform.position + new Vector3(Random.Range(-_nextTargetArea, _nextTargetArea),
-                            Random.Range(-_nextTargetArea, _nextTargetArea), 0);
-                    } while (_target.y >= _waterHeight - 5);    
-                }
+                    _target = transform.position + new Vector3(Random.Range(-_nextTargetArea, _nextTargetArea),
+                        Random.Range(-_nextTargetArea, _nextTargetArea), 0);
+                        Debug.Log("yes");
+                        calls++;
+                        if (calls > 10) 
+                        {
+                            Destroy(gameObject);
+                            break;
+                        }
+                } while (_target.y >= _waterHeight - 5);    
                 
                 break;
         }
