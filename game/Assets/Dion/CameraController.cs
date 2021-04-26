@@ -6,7 +6,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
 
-    [SerializeField] [Range(0, 1f)] private float _smoothnes;
+    [SerializeField] [Range(0, 2f)] private float _smoothnes;
 
     private GameObject _player;
     private Vector3 _initialPosition;
@@ -17,7 +17,6 @@ public class CameraController : MonoBehaviour
         _initialPosition = transform.position;
     }
 
-    // Update is called once per frame
     void Update()
     {
         var target = new Vector3(_initialPosition.x, _player.transform.position.y, _initialPosition.z);

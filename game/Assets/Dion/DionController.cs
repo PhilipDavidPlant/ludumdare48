@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Dion
@@ -25,6 +26,7 @@ namespace Dion
         
 
         private Vector3 _movement;
+        private int _maxDepth = 0;
         
         public float oxygenLeft;
         public float maxOxygen;
@@ -56,6 +58,7 @@ namespace Dion
         {
             oxygenLeft = baseOxygenTime;
             maxOxygen = oxygenLeft;
+            StartCoroutine("SaveDepth");
         }
 
         private void Update()
@@ -78,10 +81,16 @@ namespace Dion
             }
             
             
-            if (oxygenLeft <= 0)
+            if (oxygenLeft <= 0 && !isDead)
             {
                 oxygenLeft = 0;
                 isDead = true;    
+                EventManager.KillPlayer(_maxDepth);
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    transform.GetChild(i).gameObject.SetActive(false);
+                }
+                Destroy(this);
             }
         }
 
@@ -110,6 +119,19 @@ namespace Dion
             }
 
             transform.Translate(_movement);
+        }
+
+        private IEnumerator SaveDepth()
+        {
+            for(;;)
+            {
+                var currentDepth = (int) Mathf.Abs(transform.position.y);
+                if(currentDepth > _maxDepth)
+                {
+                    _maxDepth = currentDepth;
+                }
+                yield return new WaitForSeconds(0.1f);
+            }
         }
 
         public void IncreaseMaxOxygen(int value) 
