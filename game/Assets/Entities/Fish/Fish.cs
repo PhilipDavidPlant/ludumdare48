@@ -10,12 +10,14 @@ public class Fish : MonoBehaviour
     [SerializeField] private float _acceleration;
     [SerializeField] private float _deceleration;
     [SerializeField] private float _sightDistance;
+    [SerializeField] public int value;
+    [SerializeField] private GameObject _mesh;
 
     private Transform _player;
     private Vector3 _target;
     private float _nextTargetArea = 10f;
     
-    enum State { Idling, MovingToTarget, RunningFromPlayer, LookingForTarget } // there might be a new one here for being caught
+    enum State { Idling, MovingToTarget, RunningFromPlayer, LookingForTarget, Captured } // there might be a new one here for being caught
     
     // somehow variate the speed
     private Vector3 _movement;
@@ -46,15 +48,26 @@ public class Fish : MonoBehaviour
             case State.LookingForTarget:
                 HandleLookingForTarget();
                 break;
+            case State.Captured:
+                HandleCaptured();
+                break;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other) 
+    {
+        if (other.GetComponent<Spear>() != null) 
+        {
+            ChangeState(State.Captured);
         }
     }
 
     private void OnDrawGizmos()
     {
         
-        Gizmos.DrawSphere(_target, .5f);
-        Gizmos.DrawSphere(transform.position + transform.forward * 2 , .5f);
-        Gizmos.DrawRay(transform.position, _movingDirection * _sightDistance);
+        // Gizmos.DrawSphere(_target, .5f);
+        // Gizmos.DrawSphere(transform.position + transform.forward * 2 , .5f);
+        // Gizmos.DrawRay(transform.position, _movingDirection * _sightDistance);
     }
 
     private void ChangeState(State newState, [CanBeNull] ChangeStateParameters parameters = null)
@@ -121,6 +134,7 @@ public class Fish : MonoBehaviour
         _movement = Vector3.Lerp(_movement, _movingDirection * _speed, _acceleration * Time.deltaTime) * GetSpeedModifier(transform.position);
         
         transform.Translate(_movement);
+        _mesh.transform.LookAt(_target);
         
         if (Vector3.Distance(transform.position, _target) < 2f)
         {
@@ -139,6 +153,11 @@ public class Fish : MonoBehaviour
     private void HandleLookingForTarget()
     {
         ChangeState(State.MovingToTarget);
+    }
+
+    private void HandleCaptured() 
+    {
+        // play animation ?
     }
 
     private bool IsGoingToHitSomething()

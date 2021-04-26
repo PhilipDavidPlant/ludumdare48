@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpearShooter : MonoBehaviour
@@ -25,5 +23,11 @@ public class SpearShooter : MonoBehaviour
         other.Initialize(_shootForce, transform, _spearReturnSpeed);
         availableSpears--;
         _lastShot = Time.time;
+    }
+
+    public void Upgrade(float percentage)
+    {
+        _shootForce += _shootForce * percentage;
+        _spearReturnSpeed += _spearReturnSpeed * percentage;
     }
 }
