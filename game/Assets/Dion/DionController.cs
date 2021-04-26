@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Dion
 {
@@ -28,7 +27,18 @@ namespace Dion
         private Vector3 _movement;
         
         public float oxygenLeft;
+        public float maxOxygen;
         public bool isDead;
+        
+        private int _money = 0;
+        public int money {
+            get => _money;
+            set 
+            {
+                _money = value;
+                EventManager.ChangeMoney(value);
+            }
+        }
 
         private bool _isUnderWater;
         
@@ -45,6 +55,7 @@ namespace Dion
         private void Start()
         {
             oxygenLeft = baseOxygenTime;
+            maxOxygen = oxygenLeft;
         }
 
         private void Update()
@@ -61,9 +72,9 @@ namespace Dion
             {
                 oxygenLeft -= Time.deltaTime;    
             }
-            else if (oxygenLeft <= baseOxygenTime) // do not fill up the tanks, just player's "lungs"
+            else if (oxygenLeft <= maxOxygen) // do not fill up the tanks, just player's "lungs"
             {
-                oxygenLeft = Math.Min(baseOxygenTime, oxygenLeft + Time.deltaTime * gainBreathFactor);
+                oxygenLeft = Math.Min(maxOxygen, oxygenLeft + Time.deltaTime * gainBreathFactor);
             }
             
             
@@ -99,6 +110,22 @@ namespace Dion
             }
 
             transform.Translate(_movement);
+        }
+
+        public void IncreaseMaxOxygen(int value) 
+        {
+            maxOxygen += value;
+        }
+
+        public void UpgradeSpeed(float amount)
+        {
+            baseMovementAcceleration += amount * 50;
+            baseMovementSpeed += amount;
+        }
+
+        public void AddMoney(int value)
+        {
+            this.money += value;
         }
     }
 }
