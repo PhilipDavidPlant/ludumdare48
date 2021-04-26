@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +14,11 @@ public class MoneyText : MonoBehaviour
    void UpdateText(int value) 
    {
        _text.text = $"$ {value}";
+   }
+
+   private void OnDestroy() 
+   {
+       EventManager.OnMoneyChanged -= UpdateText;
    }
 
 }

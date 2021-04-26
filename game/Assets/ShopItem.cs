@@ -22,4 +22,9 @@ public class ShopItem : MonoBehaviour
     {
         _buyButton.interactable = newValue >= _price;
     }
+
+    private void OnDestroy() 
+    {
+        EventManager.OnMoneyChanged -= HandleDionsMoneyChanged;
+    }
 }
